@@ -4,9 +4,9 @@ namespace BapPoc.Persistence;
 
 public class FakeSeeder
 {
-    private readonly DbContext dbContext;
+    private readonly StoreDbContext dbContext;
 
-    public FakeSeeder(DbContext dbContext)
+    public FakeSeeder(StoreDbContext dbContext)
 	{
         this.dbContext = dbContext;
     }

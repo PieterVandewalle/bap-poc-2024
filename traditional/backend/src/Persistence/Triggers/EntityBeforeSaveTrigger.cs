@@ -5,7 +5,7 @@ using EntityFrameworkCore.Triggered;
 namespace BapPoc.Persistence.Triggers;
 
 /// <summary>
-/// Acts like a database trigger but is database agnostic and executes on <see cref="DbContext"/> SaveChanged(async) is called right before executing the query.
+/// Acts like a database trigger but is database agnostic and executes on <see cref="StoreDbContext"/> SaveChanged(async) is called right before executing the query.
 /// Trigger sets the <see cref="Entity.CreatedAt"/> and <see cref="Entity.UpdatedAt"/> of the underlying <see cref="Entity"/>.
 /// </summary>
 public class EntityBeforeSaveTrigger : IBeforeSaveTrigger<Entity>

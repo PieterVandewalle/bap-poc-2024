@@ -1,20 +1,16 @@
+using BapPoc.Persistence;
 using BapPoc.Shared.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace BapPoc.Services.Products;
 
-public class ProductService : IProductService
+public class ProductService(StoreDbContext dbContext) : IProductService
 {
-    private readonly Persistence.DbContext dbContext;
-
-    public ProductService(Persistence.DbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
+    private readonly StoreDbContext _dbContext = dbContext;
 
     public async Task<ProductResult.Index> GetIndexAsync()
     {
-        var query = dbContext.Products.AsQueryable();
+        var query = _dbContext.Products.AsQueryable();
         int totalAmount = await query.CountAsync();
 
         var items = await query

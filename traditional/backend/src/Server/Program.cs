@@ -2,7 +2,6 @@ using BapPoc.Persistence;
 using BapPoc.Server.Middleware;
 using BapPoc.Services;
 using BapPoc.Shared.Orders;
-using BapPoc.Shared.Products;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -37,7 +36,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // Database
 // Database
-builder.Services.AddDbContext<BapPoc.Persistence.DbContext>(options =>
+builder.Services.AddDbContext<StoreDbContext>(options =>
 {
     options.UseSqlServer
     (
@@ -72,7 +71,7 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 { // Require a DbContext from the service provider and seed the database.
-    var dbContext = scope.ServiceProvider.GetRequiredService<BapPoc.Persistence.DbContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<BapPoc.Persistence.StoreDbContext>();
     FakeSeeder seeder = new(dbContext);
     seeder.Seed();
 }

@@ -7,19 +7,14 @@ namespace BapPoc.Server.Controllers.Products;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController : ControllerBase
+public class ProductController(IProductService productService) : ControllerBase
 {
-    private readonly IProductService productService;
-
-    public ProductController(IProductService productService)
-    {
-        this.productService = productService;
-    }
+    private readonly IProductService _productService = productService;
 
     [SwaggerOperation("Returns a list of products available in the bogus catalog.")]
     [HttpGet]
     public async Task<ProductResult.Index> GetIndex()
     {
-        return await productService.GetIndexAsync();
+        return await _productService.GetIndexAsync();
     }
 }

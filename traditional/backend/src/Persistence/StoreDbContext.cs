@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BapPoc.Persistence;
 
-public class DbContext : Microsoft.EntityFrameworkCore.DbContext
+public class StoreDbContext : DbContext
 {
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Order> Orders => Set<Order>();
 
-    public DbContext(DbContextOptions<DbContext> options) : base(options) { }
+    public StoreDbContext(DbContextOptions<StoreDbContext> options) : base(options) { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

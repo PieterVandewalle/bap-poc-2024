@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using BapPoc.Domain.Exceptions;
 using BapPoc.Shared.Infrastructure;
 
@@ -9,26 +8,20 @@ namespace BapPoc.Server.Middleware;
 /// Global error handling middleware, when an exception is thrown in the underlying layers,
 /// we intercept it and return a more appropriate error without a stack trace.
 /// </summary>
-public class ExceptionMiddleware
+public class ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDelegate next)
 {
-    private readonly ILogger<ExceptionMiddleware> logger;
-    private readonly RequestDelegate next;
-
-    public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, RequestDelegate next)
-    {
-        this.logger = logger;
-        this.next = next;
-    }
+    private readonly ILogger<ExceptionMiddleware> _logger = logger;
+    private readonly RequestDelegate _next = next;
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
         try
         {
-            await next(httpContext);
+            await _next(httpContext);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Something went wrong");
+            _logger.LogError(ex, "Something went wrong");
             await HandleExceptionAsync(httpContext, ex);
         }
     }

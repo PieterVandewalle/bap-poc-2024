@@ -1,19 +1,15 @@
 ﻿using BapPoc.Domain.Customers;
 using BapPoc.Domain.Orders;
 using BapPoc.Domain.Products;
+using BapPoc.Persistence;
 using BapPoc.Shared.Orders;
 using Microsoft.EntityFrameworkCore;
 
 namespace BapPoc.Services.Orders;
 
-public class OrderService : IOrderService
+public class OrderService(StoreDbContext dbContext) : IOrderService
 {
-    private readonly Persistence.DbContext dbContext;
-
-    public OrderService(Persistence.DbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
+    private readonly StoreDbContext _dbContext = dbContext;
 
     public async Task<int> CreateAsync(OrderDto.Create model)
     {
@@ -22,7 +18,7 @@ public class OrderService : IOrderService
         Address address = new(model.Customer.Address.Addressline1!, model.Customer.Address.Addressline2, model.Customer.Address.PostalCode!, model.Customer.Address.City!, model.Customer.Address.Country!);
         Customer customer = new(model.Customer.Firstname!, model.Customer.Lastname!, address, email);
 
-        IEnumerable<Product> products = await dbContext.Products
+        IEnumerable<Product> products = await _dbContext.Products
                                                .Where(x => model.Items.Select(x => x.ProductId).Contains(x.Id))
                                                 .ToListAsync();
         // Order
@@ -38,8 +34,8 @@ public class OrderService : IOrderService
         }
 
         Order order = new Order(customer, orderItems);
-        dbContext.Orders.Add(order);
-        await dbContext.SaveChangesAsync();
+        _dbContext.Orders.Add(order);
+        await _dbContext.SaveChangesAsync();
 
         return order.Id;
     }
