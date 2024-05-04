@@ -16,12 +16,12 @@ import { Address } from "@/types/address";
 import CheckoutCartPanel from "@/components/Checkout/CheckoutCartPanel";
 
 const validationSchema = Yup.object<Customer>().shape({
-  firstName: Yup.string().required().max(100),
-  lastName: Yup.string().required().max(100),
+  firstname: Yup.string().required().max(100),
+  lastname: Yup.string().required().max(100),
   email: Yup.string().required().email(),
   address: Yup.object<Address>().shape({
-    addressLine1: Yup.string().required().max(250),
-    addressLine2: Yup.string().optional(),
+    addressline1: Yup.string().required().max(250),
+    addressline2: Yup.string().optional(),
     postalCode: Yup.string().required().max(20),
     city: Yup.string().required().max(100),
     country: Yup.string().required().max(100),
@@ -39,7 +39,7 @@ const Checkout = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const { shoppingCart, totalPrice, clearShoppingCart } = useShoppingCart();
+  const { shoppingCart, subtotal, shippingCost, total, clearShoppingCart } = useShoppingCart();
 
   const {
     mutate: createOrderMutate,
@@ -88,23 +88,23 @@ const Checkout = () => {
         <h4 className="font-bold text-lg">Klantgegevens</h4>
         <div className="flex gap-4">
           <div className="w-full">
-            <Label htmlFor="firstName" value="Voornaam" />
+            <Label htmlFor="firstname" value="Voornaam" />
             <TextInput
-              {...register("firstName")}
+              {...register("firstname")}
               id="firstName"
               type="text"
-              color={errors.firstName ? "failure" : "gray"}
-              helperText={errors.firstName?.message}
+              color={errors.firstname ? "failure" : "gray"}
+              helperText={errors.firstname?.message}
             />
           </div>
           <div className="w-full">
-            <Label htmlFor="lastName" value="Achternaam" />
+            <Label htmlFor="lastname" value="Achternaam" />
             <TextInput
-              {...register("lastName")}
+              {...register("lastname")}
               id="lastName"
               type="text"
-              color={errors.lastName ? "failure" : "gray"}
-              helperText={errors.lastName?.message}
+              color={errors.lastname ? "failure" : "gray"}
+              helperText={errors.lastname?.message}
             />
           </div>
         </div>
@@ -121,23 +121,23 @@ const Checkout = () => {
         </div>
         {/* Address Fields */}
         <div>
-          <Label htmlFor="addressLine1" value="Adreslijn 1" />
+          <Label htmlFor="addressline1" value="Adreslijn 1" />
           <TextInput
-            {...register("address.addressLine1")}
+            {...register("address.addressline1")}
             id="addressLine1"
             type="text"
-            color={errors.address?.addressLine1 ? "failure" : "gray"}
-            helperText={errors.address?.addressLine1?.message}
+            color={errors.address?.addressline1 ? "failure" : "gray"}
+            helperText={errors.address?.addressline1?.message}
           />
         </div>
         <div>
-          <Label htmlFor="addressLine2" value="Adreslijn 2" />
+          <Label htmlFor="addressline2" value="Adreslijn 2" />
           <TextInput
-            {...register("address.addressLine2")}
+            {...register("address.addressline2")}
             id="addressLine2"
             type="text"
-            color={errors.address?.addressLine2 ? "failure" : "gray"}
-            helperText={errors.address?.addressLine2?.message}
+            color={errors.address?.addressline2 ? "failure" : "gray"}
+            helperText={errors.address?.addressline2?.message}
           />
         </div>
         <div className="flex gap-4">
@@ -185,7 +185,7 @@ const Checkout = () => {
         )}
       </form>
 
-      <CheckoutCartPanel shoppingCart={shoppingCart} totalPrice={totalPrice} />
+      <CheckoutCartPanel shoppingCart={shoppingCart} total={total} shippingCost={shippingCost} subtotal={subtotal} />
     </div>
   );
 };

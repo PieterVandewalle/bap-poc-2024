@@ -18,7 +18,9 @@ interface ShoppingCartProviderProps {
 }
 
 interface ShoppingCartContext {
-  totalPrice: number;
+  subtotal: number;
+  shippingCost: number;
+  total: number;
   addToShoppingCart: (newProduct: Product) => void;
   removeFromShoppingCart: (productId: number) => void;
   clearShoppingCart: () => void;
@@ -28,12 +30,31 @@ interface ShoppingCartContext {
 export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   const [shoppingCart, setShoppingCart] = useState<ShoppingCartItem[]>([]);
 
-  const totalPrice = useMemo(() => {
+  const subtotal = useMemo(() => {
     return shoppingCart.reduce(
       (pv, { product: { price }, amount }) => pv + price * amount,
       0
     );
   }, [shoppingCart]);
+
+  const shippingCost: number = useMemo(() => {
+    if(subtotal < 100)
+        return 19.99;
+
+    if (subtotal < 400)
+    {
+        return 9.99;
+    }
+
+    if(subtotal < 3000)
+    {
+        return 2.99;
+    }
+
+    return 0;
+  },[subtotal]);
+
+  const total = subtotal + shippingCost;
 
   const removeFromShoppingCart = useCallback((productId: number) => {
     setShoppingCart((prevCart) => {
@@ -45,7 +66,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   }, []);
 
   const addToShoppingCart = useCallback((newProduct: Product) => {
-    // Product already in cart ? -> add amount to the amount already in cart, else just add the product
+    // Product already in cart ? -> add 1 to the amount already in cart, else just add the product
     setShoppingCart((prevCart) => {
       const productInCart = prevCart.find(
         ({ product: { id } }) => id === newProduct.id
@@ -70,14 +91,18 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
       addToShoppingCart,
       removeFromShoppingCart,
       clearShoppingCart,
-      totalPrice,
+      subtotal,
+      shippingCost,
+      total,
       shoppingCart,
     }),
     [
       addToShoppingCart,
       removeFromShoppingCart,
       clearShoppingCart,
-      totalPrice,
+      subtotal,
+      shippingCost,
+      total,
       shoppingCart,
     ]
   );

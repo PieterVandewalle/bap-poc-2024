@@ -7,9 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BapPoc.Services.Orders;
 
-public class OrderService(StoreDbContext dbContext) : IOrderService
+public class OrderService(StoreDbContext dbContext, IShippingPriceCalculator shippingPriceCalculator) : IOrderService
 {
     private readonly StoreDbContext _dbContext = dbContext;
+
+    private readonly IShippingPriceCalculator _shippingPriceCalculator = shippingPriceCalculator;
 
     public async Task<int> CreateAsync(OrderDto.Create model)
     {
@@ -33,7 +35,10 @@ public class OrderService(StoreDbContext dbContext) : IOrderService
             orderItems.Add(new OrderItem(p, item.Quantity));
         }
 
-        Order order = new Order(customer, orderItems);
+        var orderTotal = orderItems.Select(x => x.Product.Price.Value * x.Quantity).Sum();
+        var shippingCost = new Money(_shippingPriceCalculator.CalculateShippingPrice(orderTotal));
+        
+        Order order = new Order(customer, orderItems, shippingCost);
         _dbContext.Orders.Add(order);
         await _dbContext.SaveChangesAsync();
 

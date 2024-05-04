@@ -13,6 +13,10 @@ internal class OrderConfiguration : EntityConfiguration<Order>
     {
         base.Configure(builder);
 
+        builder.OwnsOne(x => x.ShippingCost)
+            .Property(x => x.Value)
+            .HasColumnName(nameof(Order.ShippingCost));
+
         builder.OwnsOne(x => x.Customer, customer =>
         {
             customer.OwnsOne(x => x.Email, email =>

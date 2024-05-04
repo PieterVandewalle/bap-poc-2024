@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="34.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\BapPoc.Domain.csproj" />
+  </ItemGroup>
+</Project>

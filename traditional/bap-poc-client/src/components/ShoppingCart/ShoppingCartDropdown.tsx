@@ -6,7 +6,7 @@ import { formatToEuroCurrency } from "@/utils/formatValues";
 import Link from "next/link";
 
 const ShoppingCartDropdown = () => {
-  const { shoppingCart, totalPrice, removeFromShoppingCart } =
+  const { shoppingCart, subtotal, total, shippingCost, removeFromShoppingCart } =
     useShoppingCart();
   const numberOfItemsInCart = shoppingCart.length;
 
@@ -40,7 +40,18 @@ const ShoppingCartDropdown = () => {
               />
             ))}
             <Dropdown.Divider />
-            <p className="mb-3">Totaal: {formatToEuroCurrency(totalPrice)}</p>
+            <div className="flex ">
+              <div className="w-28">Subtotaal:</div>
+              <span>{formatToEuroCurrency(subtotal)}</span>
+            </div>
+            <div className="flex ">
+              <div className="w-28">Verzending:</div>
+              <span>{formatToEuroCurrency(shippingCost)}</span>
+            </div>
+            <div className="flex ">
+              <div className="w-28 font-semibold">Totaal:</div>
+              <span className="font-semibold">{formatToEuroCurrency(total)}</span>
+            </div>
             <Link href="/checkout">
               <Button>Bestellen</Button>
             </Link>
