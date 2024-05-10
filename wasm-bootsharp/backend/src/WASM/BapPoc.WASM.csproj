@@ -17,8 +17,8 @@
 		<BootsharpAggressiveTrimming>true</BootsharpAggressiveTrimming>
 		<!-- AOT-compile for better compute performance at the cost of additional build time and size. -->
 		<RunAOTCompilation>false</RunAOTCompilation>
-		<!-- Enable multi-threaded mode to run CPU-intensive tasks on worker threads. -->
-		<WasmEnableThreads>true</WasmEnableThreads>
+		<!-- Enable multi-threaded mode to run CPU-intenive tasks on worker threads. -->
+		<WasmEnableThreads>false</WasmEnableThreads>
 	</PropertyGroup>
 
 	<ItemGroup>

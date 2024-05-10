@@ -17,8 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
       await backend.boot({ root: "/bin" });
       setBackendLoaded(true);
     };
-    // Initial render has been completed
-    // make the flag true
+    
     if(!backendLoaded)
       initBackend();
   }, [backendLoaded]);

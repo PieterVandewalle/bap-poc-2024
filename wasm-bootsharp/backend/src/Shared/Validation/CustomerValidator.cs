@@ -11,8 +11,13 @@ public class CustomerValidator : ICustomerValidator
 
         ValidationResult result = validator.Validate(customer);
 
-        var fieldErrorDtos = result.Errors.Select(x => new FieldErrorDto { FieldName = x.PropertyName, Error = x.ErrorMessage });
+        var fieldErrorDtos = result.Errors.Select(x =>
+        new FieldErrorDto
+        {
+            FieldName = x.PropertyName,
+            Error = x.ErrorMessage
+        });
 
-        return new ValidationResultDto {FieldErrors =  fieldErrorDtos.ToList()};
+        return new ValidationResultDto { FieldErrors = fieldErrorDtos.ToList() };
     }
 }

@@ -9,7 +9,7 @@ import {
 
 import { ShoppingCartItem } from "@/types/shopping-cart-item";
 import { Product } from "@/types/product";
-import {Backend} from "backend";
+import { Backend } from "backend";
 
 export const ShoppingCartContext = createContext({} as ShoppingCartContext);
 export const useShoppingCart = () => useContext(ShoppingCartContext);
@@ -38,7 +38,10 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     );
   }, [shoppingCart]);
 
-  const shippingCost: number = useMemo(() => Backend.calculateShippingPrice(subtotal),[subtotal]);
+  const shippingCost: number = useMemo(
+    () => Backend.calculateShippingPrice(subtotal),
+    [subtotal]
+  );
 
   const total = subtotal + shippingCost;
 

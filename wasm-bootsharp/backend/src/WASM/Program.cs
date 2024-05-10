@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 // Generate C# -> JavaScript interop handlers for specified contracts.
 [assembly: JSExport(typeof(BapPoc.Shared.Validation.ICustomerValidator), typeof(BapPoc.Shared.Orders.IShippingPriceCalculator))]
-// Group all generated JavaScript APIs under "Computer" namespace.
+// Group all generated JavaScript APIs under "Backend" namespace.
 [assembly: JSPreferences(Space = [".+", "Backend"])]
 
 // Perform dependency injection.
