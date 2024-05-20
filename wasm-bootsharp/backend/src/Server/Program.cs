@@ -3,9 +3,9 @@ using BapPoc.Server.Middleware;
 using BapPoc.Services;
 using BapPoc.Shared.Orders;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
